@@ -6,16 +6,6 @@ function [binaryImage] = Grey2Binary(inputImg)
 
 % image must be greyscale!
 
-% Vw: within-class variance. The lower the less dispersed the data in each
-% class is
-% for optimal threshold value finde the minimal value ov VW
-
-% Vb: between-class variance. 
-% for optimal threshold value find the maximal value of Vb
-
-% Vt: total variance (of one image)
-% Vt - Vw = Vb
-
 % compute k = ideal threshold using a histogram 
 counts = imhist(inputImg);
 L = length(counts);
