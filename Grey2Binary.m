@@ -25,3 +25,6 @@ inputImg(inputImg >= k) = 1;
 % create output while converting to double
 binaryImage = double(inputImg);
 end
+
+
+%%kevins version
