@@ -1,51 +1,48 @@
-im = imread('suzuki.png');
-im = imresize(im, [480 NaN]);
+%Kevin Baur 11827180
+function [croppedImage] = logo_position()
+%function gets a selected frame of a video, finds the position of the
+%brand and returns a cropped image of the logo
+%  you can find details of each function int the function itself
 
-imgray = RGB2Grey(im);
+%just to test the frame(image) will be initializied here
+%inputImage = imread('suzuki.png');
+inputImage = imread('skoda.jpg');
 
+%image resized on 480 rows and imresize calculates automatically the colums
+image = imresize(inputImage, [480 NaN]);
+
+%image to gray image
+imgray = RGB2Grey(image);
+
+%image to binary image
 imbin = Grey2Binary(imgray);
-%%imbin = imbinarize(imgray);
 
-im = edge(imgray, 'sobel');
+%filter edges with sobel filter
+image = edge(imgray, 'Sobel');
+%image = Grey2Sobel(imgray);
 
-%%im = imDilation(im, strEL(2), 2);
-im = imdilate(im, strel('diamond', 2)); %kanten hervorheben
+%highlites the edges
+image = imDilation(image, strEL(2), 2);
 
-im = imfill(im, 'holes');%füllt nummernschild aus
+%fills closed surfaces
+image = imfill(image, 'holes');%füllt flächen aus
 
+%reduces the surfaces
+%im = imerode(im, strel('diamond', 10)); % löscht unnötige weiße flächen weg
+image = imErosion(image);
 
-%%im = imerode(im, strel('diamond', 10)); % löscht unnötige weiße flächen weg
-im = imErosion(im);
-
-imshow(im);
-
-%%im = imdilate(im, strel('diamond', 6)); %highlights vertices
-im = imDilation(im, strEL(6), 6);
+%highlites the edges
+image = imDilation(image, strEL(6), 6);
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 
+%returns the boundingBox of the logo
+boundingBox = regionProps(image);
 
-Iprops = regionprops(im,'BoundingBox','Area', 'Image');
-area = Iprops.Area;
-count = numel(Iprops);
-maxa = 7000; %maximale größe logo
-mina = 1000; %minimale größe logo
-boundingBox = Iprops.BoundingBox;
-for i=1:count
-   if maxa > Iprops(i).Area && mina < Iprops(i).Area
-       maxa = Iprops(i).Area;
-       boundingBox = Iprops(i).BoundingBox;
-   end
-end    
+%cuts the boundingBox out of the binary image
+croppedImage = imcrop(imbin, boundingBox);
 
+%for testing show the croppped logo
+imshow(croppedImage);
+end
 
-%all above step are to find location of number plate
-
-im = imcrop(imbin, boundingBox); %schneidet nummernschild aus, boundingBox
-
-%resize number plate to 240 NaN
-im = imresize(im, [240 NaN]); %vergößern
-
-%clear dust
-im = imopen(im, strel('rectangle', [4 4]));
-%%imshow(im);
