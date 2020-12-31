@@ -1,16 +1,29 @@
-im = imread('suzuki.png');
-im = imresize(im, [480 NaN]);
-imgray = rgb2gray(im);
-imbin = imbinarize(imgray);
-im = edge(imgray, 'sobel');
+%Kevin Baur 11827180
+%not used, it doesn't work properly
+function  [filledImage] = imFill(inputImage)
 
-im = imdilate(im, strel('diamond', 2));
-I = im;
+%resize image to 480 rows, automatic colums
+image = imresize(inputImage, [480 NaN]);
 
-hliml = zeros(1,size(I,1)); %rand links horizontalLimitLeft
-hlimr = zeros(1,size(I,1)); %rand rechts
-vliml = zeros(1,size(I,2)); %rand oben
-vlimr = zeros(1,size(I,2)); %rand unten
+%image to gray image
+imgray = RGB2Grey(image);
+
+%image to binary image
+imbin = Grey2Binary(imgray);
+
+%sobel filter 
+image = edge(imgray, 'sobel');
+
+%dilation
+image = imDilation(image, strEL(2), 2);
+
+%add zeros to borders
+hliml = zeros(1,size(image,1)); %left border horizontalLimitLeft
+hlimr = zeros(1,size(image,1)); %right border 
+vliml = zeros(1,size(image,2)); %top border
+vlimr = zeros(1,size(image,2)); %bottom border
+
+I = image;
 
 for i = 1:size(I,1) %480
        if ~isempty(find([diff(I(i,:)),0]==1,1,'first'))
@@ -46,5 +59,6 @@ for i = 1:size(I,2)
         end
 end
 
-
+filledImage = I;
 imshow(I);
+end
