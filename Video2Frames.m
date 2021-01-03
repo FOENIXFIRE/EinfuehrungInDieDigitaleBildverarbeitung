@@ -7,7 +7,7 @@ function Video2Frames(fileName)
 % video file must be .mp4 and file must be present in "VideoFiles"
 
 
-filePath = strcat('VideoFiles/', fileName, '.mp4');
+filePath = strcat('VideoFiles/', fileName, '.mov');
 if 2==exist(filePath,'file')
     % File exists.
     
