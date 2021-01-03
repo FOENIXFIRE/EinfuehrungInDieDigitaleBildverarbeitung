@@ -1,1 +1,1 @@
-# EinfuehrungInDieDigitaleBildverarbeitung
+# Einfuehrung In Die Digitale Bildverarbeitung
