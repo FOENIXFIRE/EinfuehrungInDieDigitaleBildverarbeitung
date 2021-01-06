@@ -1,3 +1,4 @@
+% Jan König (01007167)
 function [binaryImage] = Grey2Binary(input)
 % takes an greyscale image as input 
 % returns binary image by using otsu-thresholding with 2 classes (fixed)
