@@ -3,12 +3,12 @@ function Video2Frames(input)
 % Function will save each frame of the given video as a .jpg in the folder "Frames"
 %
 % folders "VideoFiles" & "Frames" must be present in working directory
-% video file must be of type .mp4 and be present in "VideoFiles"
+% video file must be of type .mov and be present in "VideoFiles"
 %
 % source: none needed
 
 % creating Path to file
-filePath = strcat('VideoFiles/', input, '.mp4');
+filePath = strcat('VideoFiles/', input, '.mov');
 
 % check if file actually exists
 if 2==exist(filePath,'file')
