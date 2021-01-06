@@ -1,4 +1,4 @@
-function[output] = matching(input)
+function[output, outputname] = matching(input)
 
 imd = imageDatastore('logos','FileExtensions',{'.png'}, 'LabelSource' ,'foldernames', 'IncludeSubfolders', true);
 
@@ -79,7 +79,7 @@ pic = imread(folder+"\1.png");
 [asdf, name1] = fileparts(folder);
 
 
-app.BrandEditField.Value = name1;
+outputname = name1;
 
 output = pic;
 
