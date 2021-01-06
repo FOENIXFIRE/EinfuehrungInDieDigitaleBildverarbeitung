@@ -1,10 +1,12 @@
+% Jan König (01007167)
 function [sobelImage] = Grey2Sobel(greyImage)
-% this function uses 2 masks to create a sobelImage which it returns
-
-% k is the ideal threshold
-
-% image must be greyscale!
-
+% takes a greyscale image as input
+% returns edges as detected by sobel filter
+% output image will be eroded by myErode
+% 
+% e.g.: sobelImg = Grey2Sobel(img);
+%
+% source: https://www.geeksforgeeks.org/matlab-image-edge-detection-using-sobel-operator-from-scratch/
 
 % convert image to double
 greyImage = double(greyImage);
@@ -16,7 +18,7 @@ sobelImage = zeros(size(greyImage));
 Mx = [-1 0 1; -2 0 2; -1 0 1]; 
 My = [-1 -2 -1; 0 0 0; 1 2 1]; 
 
-% edge detection process
+% iterate over image
 for i = 1:size(greyImage, 1) - 2 
     for j = 1:size(greyImage, 2) - 2 
   
@@ -38,7 +40,10 @@ temp = max(sobelImage, thresholdValue);
 temp(sobelImage == round(thresholdValue)) = 0; 
 temp = im2bw(temp);
 
+% write temp to output image
 sobelImage = temp;
-end
 
-% https://www.geeksforgeeks.org/matlab-image-edge-detection-using-sobel-operator-from-scratch/
+% further erode image for smoother lines
+sobelImage = myErode(sobelImage);
+sobelImage = myErode(sobelImage);
+end
