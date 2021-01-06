@@ -1,3 +1,4 @@
+% Jan König (01007167)
 function [hist] = MyHist(input)
 % takes an greyscale image as input 
 % returns histogram of image
