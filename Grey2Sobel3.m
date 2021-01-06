@@ -1,3 +1,4 @@
+% Jan König (01007167)
 function output = Grey2Sobel3(input)
 % takes an greyscale image as input
 % returns edged as detected by sobel filter
