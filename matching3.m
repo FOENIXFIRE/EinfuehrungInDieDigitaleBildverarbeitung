@@ -1,3 +1,5 @@
+function[output] = matching(input)
+
 imd = imageDatastore('logos','FileExtensions',{'.png'}, 'LabelSource' ,'foldernames', 'IncludeSubfolders', true);
 
 c = countEachLabel(imd);
@@ -10,7 +12,7 @@ max2 = 0;
 %a1 = a(1)+a(2);
 %numMatchedPoints = zeros(1,a1);
 
-test = imread("unknownvw.png");
+test = input;
     %rgb2gray:
     r = test(:,:,1);
     g = test(:,:,2);
@@ -73,9 +75,15 @@ fullFileNames = vertcat(imd.Files);
 [folder, baseFileNameNoExt, ext] = fileparts(fullFileNames{max2});
 %imshow(readimage(imd,max2));
 pic = imread(folder+"\1.png");
-imshow(pic);
+
 [asdf, name1] = fileparts(folder);
-brand = name1
+
+
+app.BrandEditField.Value = name1;
+
+output = pic;
+
+end
 
 function [C,numberOfOverlapPixels] = normxcorr2_general(varargin)
 
