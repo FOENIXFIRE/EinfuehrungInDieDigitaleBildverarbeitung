@@ -1,3 +1,4 @@
+% Jan König (01007167)
 function [sobelImage] = Grey2Sobel(greyImage)
 % this function uses 2 masks to create a sobelImage which it returns
 
