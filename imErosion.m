@@ -1,5 +1,5 @@
 %Kevin Baur 11827180
-function [erodedImage] = imErosion(im)
+function [erodedImage] = imErosion(im, R)
 %imErosion reduces the shape of objects in a given image
 %  dilation operation removes pixels of the boundaries of objects of an
 %  image.
@@ -8,7 +8,7 @@ function [erodedImage] = imErosion(im)
 %  Morphological erosion removes islands and small objects so that only substantive objects remain.
 
 %Structuring element
-struct = getnhood(strel('diamond',10));
+struct = getnhood(strel('diamond',R));
 
 %round
 m=floor(size(struct,1)/2);
