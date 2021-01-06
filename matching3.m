@@ -14,17 +14,17 @@ max2 = 0;
 
 test = input;
     %rgb2gray:
-    r = test(:,:,1);
-    g = test(:,:,2);
-    b = test(:,:,3);
-    r = double(r);
-    g = double(g);
-    b = double(b); 
-    greyImage = r+g+b;
-    greyImage = greyImage/3;
-    greyImage = uint8(greyImage);
+    %r = test(:,:,1);
+    %g = test(:,:,2);
+    %b = test(:,:,3);
+    %r = double(r);
+    %g = double(g);
+    %b = double(b); 
+    %greyImage = r+g+b;
+    %greyImage = greyImage/3;
+    %greyImage = uint8(greyImage);
     
-test = greyImage;
+%test = greyImage;
 %test = rgb2gray(test);
 %test(test>150) = 255;
 %test(test<=150) = 0;
