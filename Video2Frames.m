@@ -1,19 +1,24 @@
-function Video2Frames(fileName)
-% takes the name of a video and processes it. Function will save each frame 
-% of the given video as a .jpg in the folder "Frames"
+% Jan König (01007167)
+function Video2Frames(input)
+% takes a video (path) and processes it
+% Function will save each frame of the given video as a .jpg in the folder "Frames"
+%
+% folders "VideoFiles" & "Frames" must be present in working directory
+% video file must be of type .mov and be present in "VideoFiles"
+%
+% e.g.: Video2Frames('video1')
+%
+% source: none needed
 
-% Vorbedingungen: 
-% folders "VideoFiles" & "Frames" need to be present in working directory
-% video file must be .mp4 and file must be present in "VideoFiles"
+% creating Path to file
+filePath = strcat('VideoFiles/', input, '.mov');
 
-
-filePath = strcat('VideoFiles/', fileName, '.mov');
+% check if file actually exists
 if 2==exist(filePath,'file')
     % File exists.
-    
     video = VideoReader(filePath); 
     
-    % iterating each frame and writing it to Frames/ as framex.jpg
+    % iterating over each frame and writing it to Frames/ as framex.jpg
     for img = 1:video.NumberOfFrames
         filename = strcat('Frames/frame', num2str(img), '.jpg');
         tempframe = read(video, img); 
@@ -24,4 +29,3 @@ else
     % File does not exist.
      disp('Video2Frames: error, no such file exists');
 end
-
