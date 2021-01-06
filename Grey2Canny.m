@@ -1,3 +1,4 @@
+% Jan König (01007167)
 function [cannyImage] = Grey2Canny(input)
 % takes an greyscale image as input 
 % returns edges as detected by canny filter
