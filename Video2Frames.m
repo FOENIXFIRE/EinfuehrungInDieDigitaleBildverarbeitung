@@ -5,6 +5,8 @@ function Video2Frames(input)
 % folders "VideoFiles" & "Frames" must be present in working directory
 % video file must be of type .mov and be present in "VideoFiles"
 %
+% e.g.: Video2Frames('video1')
+%
 % source: none needed
 
 % creating Path to file
