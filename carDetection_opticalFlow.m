@@ -35,7 +35,7 @@ opticFlow = opticalFlowHS;
         
         imgMag = flowField.Magnitude;
         imgMagThr = threshholding(imgMag, mean(imgMag(:)));
-        imgEro = imerode(imgMagThr,strel('diamond',5));
+        imgEro = imErosion(imgMagThr,6);
 %       imgEro = imErosion(imgMagThr);
         imshow(imgEro);
         
