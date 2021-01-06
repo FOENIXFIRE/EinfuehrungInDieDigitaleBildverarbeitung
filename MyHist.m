@@ -15,6 +15,7 @@ hist = zeros(256,1);
 for i=1:row
     for j=1:col
         temp = input(i,j);   
+        temp = temp+1;
             
         hist(temp) = hist(temp)+1;
     end
