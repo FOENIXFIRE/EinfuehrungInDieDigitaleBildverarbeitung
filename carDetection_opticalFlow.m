@@ -5,7 +5,7 @@ close all;
 clc;
 
 %%Get Frames
-Video2Frames('video1')
+Video2Frames("hyundai")
 
 
 h = figure;
