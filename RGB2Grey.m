@@ -1,3 +1,4 @@
+% Jan König (01007167)
 function [greyImage] = RGB2Grey(input)
 % takes an rgb image and returns a grey image
 % e.g.: greyImage = RGB2Grey(input);
