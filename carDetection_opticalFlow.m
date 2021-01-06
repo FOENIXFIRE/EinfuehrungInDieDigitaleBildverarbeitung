@@ -25,13 +25,19 @@ opticFlow = opticalFlowHS;
         IThresh = threshholding(img1gray, 130);
         
         
-        imshow(imgFile);
+%         imshow(imgFile);
         flowField = estimateFlow(opticFlow,img1gray);
-        hold on
-        plot(flowField,'DecimationFactor',[10 10],'ScaleFactor',20,'Parent',hPlot);
-        title('OPtical Flow');
-        hold off
-        pause (10^-3)
+%         hold on
+%         plot(flowField,'DecimationFactor',[10 10],'ScaleFactor',20,'Parent',hPlot);
+%         title('OPtical Flow');
+%         hold off
+%         pause (10^-3)
+        
+        imgMag = flowField.Magnitude;
+        imgMagThr = threshholding(imgMag, mean(imgMag(:)));
+        imgEro = imerode(imgMagThr,strel('diamond',5));
+%       imgEro = imErosion(imgMagThr);
+        imshow(imgEro);
         
         
         
