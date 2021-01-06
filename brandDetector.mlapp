@@ -9,6 +9,8 @@ classdef brandDetector < matlab.apps.AppBase
         PredefinedVideosDropDownLabel  matlab.ui.control.Label
         DropDown                       matlab.ui.control.DropDown
         GetBrandButton                 matlab.ui.control.Button
+        FinishedLampLabel              matlab.ui.control.Label
+        FinishedLamp                   matlab.ui.control.Lamp
         BrandAxes                      matlab.ui.control.UIAxes
         ImageAxes                      matlab.ui.control.UIAxes
     end
@@ -21,6 +23,10 @@ classdef brandDetector < matlab.apps.AppBase
             % For skoda.png, read the second image in the file 
             if strcmp(imagefile,'skoda.png')
                 im = imread('skoda.png');
+            elseif strcmp(imagefile,'rangeRover.png')
+                im = imread('rangeRover.png');
+            elseif strcmp(imagefile, 'toyota.png')
+                im = imread('toyota.png');
             else
                 try
                     im = imread(imagefile);
@@ -36,6 +42,7 @@ classdef brandDetector < matlab.apps.AppBase
         
         %%output matched brand
         function updatebrand(app, image)
+            app.FinishedLamp.Color = [0.39,0.83,0.07];
             % load logo picture into Image
             imagesc(app.BrandAxes,image);
         end
@@ -43,101 +50,19 @@ classdef brandDetector < matlab.apps.AppBase
  
         %%find logo position (Kevin Baur 11827180)
         function logoPosition(app, im)
-            im = imresize(im, [480 NaN]);
-            image = im;
-            imgray = rgb2gray(im);
-            imbin = imbinarize(imgray);
-            im = edge(imgray, 'sobel');
-            
-            im = imdilate(im, strel('diamond', 2)); %highlights vertices
-            im = imfill(im, 'holes'); %fills surfaces
-            im = imerode(im, strel('diamond', 10)); % deletes uneccessary white surfaces
-            im = imdilate(im, strel('diamond', 6));
-            %%%%%%%%%%%%%%%%%%%%%%%%
-            
-            Iprops = regionprops(im,'BoundingBox','Area', 'Image'); %divides and saves the data in an array
-            area = Iprops.Area;
-            count = numel(Iprops);
-            maxa = 7000; %max size logo
-            mina = 1000; %min size logo
-            boundingBox = Iprops.BoundingBox;
-            for i=1:count
-               if maxa > Iprops(i).Area && mina < Iprops(i).Area
-                   maxa = Iprops(i).Area;
-                   boundingBox = Iprops(i).BoundingBox;
-               end
-            end    
-            
-            im = imcrop(imbin, boundingBox); %cut logo, boundingBox
-            
-            %resize logo to 240 NaN
-            im = imresize(im, [240 NaN]); %vergößern
-            
-            %reduce dust
-            im = imopen(im, strel('rectangle', [4 4]));
-            %imshow(im);
-            %%give logo to brand matching
-            brandMatching(app,im);
+            croppedImage = logoPosition(im);
+            brandMatching(app,croppedImage);
         end
         
         
         %%brand matching (Manuel Lautschacher 11822449) 
         function brandMatching(app,im)
-            %imds = imageDatastore({'logos/suzuki.png','logos/audi.png','logos/seat.png'});
-            imd = imageDatastore('logos','FileExtensions',{'.png'}, 'LabelSource' ,'foldernames', 'IncludeSubfolders', true);
-            
-            c = countEachLabel(imd)
-            
-            a = c.Count;
-            max = 0;
-            maxI = 0;
-            
-            a1 = a(1)+a(2);
-            numMatchedPoints = zeros(1,a1);
-            
-            test = im;
-     
-            for i = 1:10
-            
-            logo = readimage(imd,i);
-            logo = rgb2gray(logo);
-            logo = imbinarize(logo);
-            
-            
-            [rowsL colsL c] = size(test);
-            
-            logo = imresize(logo, [rowsL colsL]);
-            
-            pointsA = detectSURFFeatures(logo);
-            pointsB = detectSURFFeatures(test);
-            
-            [featuresA, pointsA] = extractFeatures(logo, pointsA);
-            [featuresB, pointsB] = extractFeatures(test, pointsB);
-            
-            indexPairs = matchFeatures(featuresA,featuresB,'Method', 'Exhaustive', 'Unique', true);
-            numMatchedPoints(i) = int32(size(indexPairs,1));
-            
-            %matchedPointsA = pointsA(indexPairs(:,1),:);
-            %matchedPointsB = pointsB(indexPairs(:,2),:);
-            %showMatchedFeatures(logo, test, matchedPointsA, matchedPointsB, 'montage');
-            
-            
-            
-            if (max <= numMatchedPoints(i))
-                max = numMatchedPoints(i);
-                maxI = i;
-            end
-               
-            end
-            
-            fullFileNames = vertcat(imd.Files);
-            [folder, baseFileNameNoExt, ext] = fileparts(fullFileNames{maxI});
-            brandIm = readimage(imd,maxI);
-            
-            app.BrandEditField.Value = baseFileNameNoExt; %%updates brand in textfield GUI
+            [brandImage, brandname] = matching(im);
+            %imshow(brand);
+            app.BrandEditField.Value = brandname; %%updates brand in textfield GUI
             
             %%updates brand image in GUI
-            updatebrand(app, brandIm);
+            updatebrand(app, brandImage);
         end
         
         %%Videos to frames (Jan König 01007167)
@@ -155,45 +80,7 @@ classdef brandDetector < matlab.apps.AppBase
         
         %%car detection (Lucio Delen 11713066) 
         function carDetection(app, video)
-            foregroundDetector = vision.ForegroundDetector('NumGaussians', 3, ...
-            'NumTrainingFrames', 50);
-        
-            %Put in your video file here
-            videoReader = VideoReader(video);
             
-            blobAnalysis = vision.BlobAnalysis('BoundingBoxOutputPort', true, ...
-                'AreaOutputPort', false, 'CentroidOutputPort', false, ...
-                'MinimumBlobArea', 2000);
-            
-            videoPlayer = vision.VideoPlayer('Name', 'Detected Cars');
-            videoPlayer.Position(3:4) = [650,400];  % window size: [width, height]
-            se = strel('square', 5); % morphological filter for noise removal
-            
-            for img = 1:videoReader.NumFrames
-                frame = readFrame(videoReader); % read the next video frame
-            
-                % Detect the foreground in the current video frame
-                foreground = step(foregroundDetector, frame);
-            
-                % Use morphological opening to remove noise in the foreground
-                filteredForeground = imopen(foreground, se);
-            
-                % Detect the connected components with the specified minimum area, and
-                % compute their bounding boxes
-                bbox = step(blobAnalysis, filteredForeground);
-                
-                % Draw bounding boxes around the detected cars
-                result = insertShape(frame, 'Rectangle', bbox, 'Color', 'green');
-                % Display the number of cars found in the video frame
-                numCars = size(bbox, 1);
-                if numCars>0
-                    disp('found a car')
-                end
-                result = insertText(result, [10 10], numCars, 'BoxOpacity', 1, ...
-                    'FontSize', 14);
-            
-                step(videoPlayer, result);  % display the results
-            end
                 
         end
         
@@ -237,6 +124,7 @@ classdef brandDetector < matlab.apps.AppBase
 
         % Button pushed function: GetBrandButton
         function GetBrandButtonPushed(app, event)
+            app.FinishedLamp.Color = [1.00,0.41,0.16];
             video = imread(app.DropDown.Value);
             %Video2Frames(app,video);
             logoPosition(app,video);
@@ -279,8 +167,8 @@ classdef brandDetector < matlab.apps.AppBase
 
             % Create DropDown
             app.DropDown = uidropdown(app.UIFigure);
-            app.DropDown.Items = {'car one', 'car two'};
-            app.DropDown.ItemsData = {'suzuki.png', 'skoda.png', ''};
+            app.DropDown.Items = {'car one', 'car two', 'car three', 'car four'};
+            app.DropDown.ItemsData = {'suzuki.png', 'skoda.png', 'rangeRover.png', 'toyota.png'};
             app.DropDown.ValueChangedFcn = createCallbackFcn(app, @DropDownValueChanged, true);
             app.DropDown.Position = [509 458 89 29];
             app.DropDown.Value = 'suzuki.png';
@@ -291,6 +179,17 @@ classdef brandDetector < matlab.apps.AppBase
             app.GetBrandButton.BackgroundColor = [1 1 1];
             app.GetBrandButton.Position = [273 226 127 45];
             app.GetBrandButton.Text = 'Get Brand';
+
+            % Create FinishedLampLabel
+            app.FinishedLampLabel = uilabel(app.UIFigure);
+            app.FinishedLampLabel.HorizontalAlignment = 'right';
+            app.FinishedLampLabel.Position = [424 237 51 22];
+            app.FinishedLampLabel.Text = 'Finished';
+
+            % Create FinishedLamp
+            app.FinishedLamp = uilamp(app.UIFigure);
+            app.FinishedLamp.Position = [490 237 20 20];
+            app.FinishedLamp.Color = [0.3922 0.8314 0.0745];
 
             % Create BrandAxes
             app.BrandAxes = uiaxes(app.UIFigure);

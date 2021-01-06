@@ -28,3 +28,4 @@ for i=1:size(padA,1)-(2*m)
 end
 erodedImage = result;
 end
+
