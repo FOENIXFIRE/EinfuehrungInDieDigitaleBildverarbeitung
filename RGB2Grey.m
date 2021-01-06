@@ -2,9 +2,6 @@ function [greyImage] = RGB2Grey(input)
 % takes an rgb image and returns a grey image
 % e.g.: greyImage = RGB2Grey(input);
 %
-% image must be present in folder Frames
-% image must be a .jpg
-%
 % source: none needed
     
 % split into seperate color channels and convert each to double
