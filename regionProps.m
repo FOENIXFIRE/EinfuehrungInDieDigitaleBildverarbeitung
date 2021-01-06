@@ -12,7 +12,8 @@ image = inputImage;
 %label the image
 [Label,Total]=bwlabel(image,8);  %Total = labelled surfaces
 
-imshow(image); 
+%for testing
+%imshow(image); 
 
 %goes throught all labelled surfaces and calculates every BoundingBox, then
 %checks if its the logo with object_area and position in the inputImage
@@ -51,10 +52,10 @@ for num=1:Total
         if Obj_area > 300 & Obj_area < 7000
             found = num;
             %make boundingBox larger for better crop
-            BBox(1) = BBox(1)-10;
-            BBox(2) = BBox(2)-5;
+            BBox(1) = BBox(1)-13; %left side
+            BBox(2) = BBox(2)-6; %bottom
             BBox(3) = BBox(3)+25;
-            BBox(4) = BBox(4)+20;
+            BBox(4) = BBox(4)+45;
             foundBBox = BBox;           %BBox of logo
             foundCentroid = Centroid;   %Centroid of the logo
         end
