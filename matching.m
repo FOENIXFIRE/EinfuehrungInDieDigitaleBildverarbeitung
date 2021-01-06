@@ -1,4 +1,11 @@
+%Manuel Leutschacher
+
+
 function[output, outputname] = matching(input)
+%MATCHING Takes input picture and returns the matching brand logo and name
+%   Loads the logos from our database and checks their correlation to the
+%   input picture via the normxcorr2 method and returns the logo and the name
+%   with the highest correlation-value.
 
 imd = imageDatastore('logos','FileExtensions',{'.png'}, 'LabelSource' ,'foldernames', 'IncludeSubfolders', true);
 
