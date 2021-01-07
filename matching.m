@@ -86,7 +86,7 @@ if (max1 > 0.5)
 else
     outputname = "Brand not found";
     output = zeros(100);
-
+end
 end
 
 
