@@ -11,36 +11,21 @@ imd = imageDatastore('logos','FileExtensions',{'.png'}, 'LabelSource' ,'folderna
 
 c = countEachLabel(imd);
 a = c.Count;
-aa = sum(a)
+aa = sum(a);
 
 max1 = 0;
 max2 = 0;
 
-%a1 = a(1)+a(2);
-%numMatchedPoints = zeros(1,a1);
+
 
 test = input;
-    %rgb2gray:
-    %r = test(:,:,1);
-    %g = test(:,:,2);
-    %b = test(:,:,3);
-    %r = double(r);
-    %g = double(g);
-    %b = double(b); 
-    %greyImage = r+g+b;
-    %greyImage = greyImage/3;
-    %greyImage = uint8(greyImage);
     
-%test = greyImage;
-%test = rgb2gray(test);
-%test(test>150) = 255;
-%test(test<=150) = 0;
 
 for i = 1:aa
 
 logo = readimage(imd,i);
 
-%rgb2gray:
+    %rgb2gray:
     r1 = logo(:,:,1);
     g1 = logo(:,:,2);
     b1 = logo(:,:,3);
@@ -54,22 +39,16 @@ logo = readimage(imd,i);
     
 logo = greyImage1;
 
-
-%logo(logo>100) = 255;
-%logo(logo<=100) = 0;
-
 [rowsL, colsL, c] = size(test);
 
-%logo = imresize(logo, [rowsL colsL]);
-
-cc = normxcorr2_general(logo, test);
+%Calculate correlation
+cc = normxcorr2_self(logo, test);
 
 
 [RowCC, ColCc] = size(cc);
 
 [max_cc, imax] = max(abs(cc(:)));
-asdf = max_cc
-
+%asdf = max_cc
 
 if (max1 <= max_cc)
     max1 = max_cc;
@@ -78,9 +57,10 @@ end
    
 end
 
+%gets the brand by checking the folder the found picture is from and
+%the logo by taking the non perspectively distorted 
 fullFileNames = vertcat(imd.Files);
 [folder, baseFileNameNoExt, ext] = fileparts(fullFileNames{max2});
-%imshow(readimage(imd,max2));
 pic = imread(folder+"\1.png");
 
 [asdf, name1] = fileparts(folder);
@@ -92,8 +72,15 @@ output = pic;
 
 end
 
-function [C,numberOfOverlapPixels] = normxcorr2_general(varargin)
 
+function [C,numberOfOverlapPixels] = normxcorr2_self(varargin)
+%NORMXCORR2_SELF Takes input pictures and returns their correlation
+%values per pixel -> same as normxcorr2
+%   At first it takes the input pictures and checks for errors,
+%   then it calculates the localsums, then the correlation matrix and 
+%   then it normalizes the values to get values between 0 and 1,
+%   0 if the pixel has no correlation with the template, 1 if the
+%   pixels nearby area is exactly the same.
 
 [T, A, requiredNumberOfOverlapPixels] = ParseInputs(varargin{:});
 
@@ -149,7 +136,9 @@ C(numberOfOverlapPixels < requiredNumberOfOverlapPixels) = 0;
 end
 
 function local_sum_A = local_sum(A,m,n)
-
+%LOCAL_SUM computes local sums, by recomputing running sums
+%   If m and n are the same size as A, there is a faster method used,
+%   else, the slower route is taken
 
 if( m == size(A,1) && n == size(A,2) )
     s = cumsum(A,1);
@@ -158,7 +147,7 @@ if( m == size(A,1) && n == size(A,2) )
     clear c;
     local_sum_A = [s, repmat(s(:,end),1,n-1) - s(:,1:end-1)];
 else
-    % Break the padding into parts to save on memory.
+    % splitting padding -> saves memory.
     B = zeros(size(A,1)+2*m,size(A,2));
     B(m+1:m+size(A,1),:) = A;
     s = cumsum(B,1);
@@ -172,12 +161,14 @@ end
 
 
 function cross_corr = xcorr2_fast(T,A)
+%XCORR2_FAST decides if there should be spatial or frequency
+%domain used to make the algorithm faster.
 
 T_size = size(T);
 A_size = size(A);
 outsize = A_size + T_size - 1;
 
-% Figure out when to use spatial domain vs. freq domain
+%Using spatial domain vs. freq domain
 conv_time = time_conv2(T_size,A_size); % 1 conv2
 fft_time = 3*time_fft2(outsize); % 2 fft2 + 1 ifft2
 
@@ -190,9 +181,11 @@ end
 
 
 function xcorr_ab = freqxcorr(a,b,outsize)
-  
-% Find the next largest size that is a multiple of a combination of 2, 3,
-% and/or 5.  This makes the FFT calculation much faster.
+%FREQXCORR gets the optimal size, then calculates the
+%correlation in the frequency domain and returns it
+
+% Next biggest size wich is multiple of a combination of 2, 3,
+% and/or 5. -> Makes FFT calculation much faster.
 optimalSize(1) = FindClosestValidDimension(outsize(1));
 optimalSize(2) = FindClosestValidDimension(outsize(2));
 
@@ -206,29 +199,29 @@ xcorr_ab = xcorr_ab(1:outsize(1),1:outsize(2));
 end
 
 function time = time_conv2(obssize,refsize)
-
+%TIME_CONV2 times a spatial domain convolution for matrices
+%10-by-10 x 20-by-20, code to calculate K is found here:
+%https://github.com/OpenPIV/openpiv-matlab/blob/master/normxcorr2_general.m
+K = 2.7e-8;
 time =  K*prod(obssize)*prod(refsize);
 
 end
 
 function time = time_fft2(outsize)
+%TIME_FFT2 times a frequency domain convolution trough timing two
+%one dimensional ffts (Fast Fourier Transform), K_fft is calculated by
+%time_fft(R)/(R*log(R))
 
-% time a frequency domain convolution by timing two one-dimensional ffts
 
 R = outsize(1);
 S = outsize(2);
 
-% Tr = time_fft(R);
-% K_fft = Tr/(R*log(R)); 
-
-% K_fft was empirically calculated by the 2 commented-out lines above.
 K_fft = 3.3e-7; 
 Tr = K_fft*R*log(R);
 
 if S==R
     Ts = Tr;
 else
-%    Ts = time_fft(S);  % uncomment to estimate explicitly
    Ts = K_fft*S*log(S); 
 end
 
@@ -237,9 +230,11 @@ time = S*Tr + R*Ts;
 end
 %-----------------------------------------------------------------------------
 function [T, A, requiredNumberOfOverlapPixels] = ParseInputs(varargin)
+%PARSEINPUTS checks the input for various properties which are not allowed 
+%and result in errors. And shifts the input arrays to positve values.
 
 if( nargin < 2 || nargin > 3 )
-    error('ERROR: The number of arguments must be either 2 or 3.  Please see the documentation for details.');
+    error('ERROR: The number of arguments must be either 2 or 3.');
 end
 
 T = varargin{1};
@@ -254,7 +249,7 @@ end
 
 checkSizesTandA(T,A)
 
-
+%-> Shifting negative data to positive ones for robustness
 A = shiftData(A);
 T = shiftData(T);
 
@@ -262,6 +257,9 @@ checkIfFlat(T);
 end
 %-----------------------------------------------------------------------------
 function B = shiftData(A)
+%SHIFTDATA takes values and makes sure that there are no negative
+%values by adding the minimum value if it is below 0
+%-> ensures robust results for the norm. cross-corr.
 
 B = double(A);
 
@@ -278,6 +276,7 @@ end
 end
 %-----------------------------------------------------------------------------
 function checkSizesTandA(T,A)
+%CHECKSIZESTAND checks if the Templateimage is big enough to be matched
 
 if numel(T) < 2
     eid = sprintf('Images:%s:invalidTemplate',mfilename);
@@ -287,6 +286,8 @@ end
 end
 %-----------------------------------------------------------------------------
 function checkIfFlat(T)
+%CHECKIFFLAT returns an error if the input is only one color
+%(black or white)
 
 if std(T(:)) == 0
     eid = sprintf('Images:%s:sameElementsInTemplate',mfilename);
@@ -296,7 +297,10 @@ end
 end
 %-----------------------------------------------------------------------------
 function [newNumber] = FindClosestValidDimension(n)
-
+%FINDCLOSESTVALIDDIMENSION searches for the closest valid dimension above
+%the desired one.
+%   Adds 1 till we reach a size where it can be properly factored by the 
+%   FactorizeNumber function.
 
 newNumber = n;
 result = 0;
@@ -308,7 +312,8 @@ end
 end
 %-----------------------------------------------------------------------------
 function [n] = FactorizeNumber(n)
-
+%FACTORIZE NUMBER splits the input number into factors of
+%2, 3 and 5
 for ifac = [2 3 5]
     while( rem(n,ifac) == 0 )
         n = n/ifac;
