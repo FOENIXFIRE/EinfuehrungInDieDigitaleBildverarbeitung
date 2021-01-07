@@ -5,7 +5,7 @@
 
 ---
 
-###Contributors
+### Contributors
 
 - Vincent Zoechling <e11913652@student.tuwien.ac.at>
 - Lucio Delen <e11713066@student.tuwien.ac.at>
@@ -17,7 +17,7 @@
 
 ---
 
-###Links and Resources
+### Links and Resources
 
 
 ---
