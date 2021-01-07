@@ -35,7 +35,19 @@ Then follow the following steps
   in the end to prevent bugs and storage issues. In GitHub it is not possible to commit empty folders, therefor the notice to create the folder yourself.
 
 ### MATLAB - Application
-TBA
+
+####Starting the matlab app without optical-flow
+To start our program, download the brandDetector.zip folder and unzip it. Start the file brandDetector.mlapp and press „Run“.
+Now select a predefined image in the drop down menu and click on the „Get Brand“ button in the middle.
+After a few seconds you will see the result in the textfield below and next to it an image with the brand.
+You can also see the status of the program with the lamp, if it glows red, the program is not finished yet.
+
+####optical Flow
+For our program to work the intended way, you first need to call a series of functions
+* **[image, bbox] = carDetection_opticalFlow('skodamp4')** (skodamp4 is a sample File)
+This function needs an input-parameter, which must be a file name of an existing video file in den *VideoFiles* folder
+* **croppedImage = carCropping(image, bbox)** 
+This function takes the parameters and returns a cropped image, which can be used in the brandDetector-application
 
 
 ## Built with

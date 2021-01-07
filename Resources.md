@@ -30,12 +30,12 @@ were last used on the 7th january 2021.
 
 ### Kevin Baur
 * Sources:
-    * [https://circuitdigest.com/tutorial/vehicle-number-plate-detection-using-matlab-and-image-processing](https://circuitdigest.com/tutorial/vehicle-number-plate-detection-using-matlab-and-image-processing)
+    * [plateDetection](https://circuitdigest.com/tutorial/vehicle-number-plate-detection-using-matlab-and-image-processing)
     * [imerosion](http://matlab.izmiran.ru/help/toolbox/images/imerode.html)
     * [imdilation](http://matlab.izmiran.ru/help/toolbox/images/imdilate.html)
     * [imfill](https://de.mathworks.com/help/images/flood-fill-operations.html)
-    * [http://matlab.izmiran.ru/help/toolbox/images/bwlabel.html](http://matlab.izmiran.ru/help/toolbox/images/bwlabel.html)
-    * [https://de.mathworks.com/help/images/ref/regionprops.html](https://de.mathworks.com/help/images/ref/regionprops.html)
+    * [bwlabel](http://matlab.izmiran.ru/help/toolbox/images/bwlabel.html)
+    * [regionprops](https://de.mathworks.com/help/images/ref/regionprops.html)
     * [imcrop](https://de.mathworks.com/help/images/ref/imcrop.html)
 
 ### Manuel Lautschacher
