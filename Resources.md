@@ -26,7 +26,7 @@ The resources are grouped by the person that used them.
 
 ### Manuel Lautschacher
 * Sources for the database:
-    *[Skoda](https://de.wikipedia.org/wiki/Datei:Skoda_Logo.svg)
+    * [Skoda](https://de.wikipedia.org/wiki/Datei:Skoda_Logo.svg)
     * [Citroen](https://www.pinterest.at/pin/15973773656227428/)
     * [Fiat](https://www.nicepng.com/ourpic/u2e6w7y3w7y3i1o0_fiat-logo-fiat-zeichen-vektor-bedeutendes-logo-und/)
     * [Ford](https://automarken-logos.com/ford-logo/)
