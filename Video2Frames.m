@@ -11,7 +11,7 @@ function Video2Frames(input)
 % source: none needed
 
 % creating Path to file
-filePath = strcat('VideoFiles/', input, '.mov');
+filePath = strcat('VideoFiles/', input, '.mp4');
 
 % File exists.
 video = VideoReader(filePath); 

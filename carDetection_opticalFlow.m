@@ -44,6 +44,11 @@ opticFlow = opticalFlowHS;
         filename = strcat('Frames/', videoName, '-', num2str(count), '.jpg');
         imgFile = imread(filename);
         
+        if(count <= (numel(dir("Frames"))-2)-3)
+            ansfilename = strcat('Frames/', videoName, '-', num2str(count+3), '.jpg');
+            ansimgFile = imread(ansfilename);
+        end    
+        
         %Resizing the image and converting into grey
         img1resize = imResize(imgFile, 0.2, 0.2);
         img1gray = RGB2Grey(img1resize);
@@ -66,10 +71,8 @@ opticFlow = opticalFlowHS;
         
         %Getting the magnitude from the opticalFlow object
         imgMag = flowField.Magnitude;
-        imgMagThr = threshholding(imgMag, mean(imgMag(:)));
+        imgMagThr = threshholding(imgMag, mean(imgMag(:))/3);
         imgEro = imErosion(imgMagThr,6);
-
-
         set(0, 'CurrentFigure', threshHoldPlot)
         imshow(imgEro);
         
@@ -79,10 +82,11 @@ opticFlow = opticalFlowHS;
         boxImg = insertShape(uint8(imgEro),'Rectangle', bbox, 'Color', 'green');
         numBoxes = size(bbox, 1);
         if numBoxes>0
-            if bbox(1,3)>80
+            [m,n] = size(img1resize);
+            if bbox(1,3)>n/(5*3)
                 disp('Frame:')
-                disp(count);
-                outputImage = imgFile;
+                disp(count +1);
+                outputImage = ansimgFile;
             end
         end
         set(0, 'CurrentFigure', boxedImgPlot)
