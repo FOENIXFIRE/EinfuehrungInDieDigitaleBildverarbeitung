@@ -5,12 +5,9 @@ function  [foundBBox] = regionProps(inputImage)
 %   with labelling every surface gets a number, then every labelled surface
 %   gets surrounded with a boundingBox. The best matching boundingBox gets
 %   returned and it will be the logo of the car.
- 
-%input image                                                
-image = inputImage;
                                                    
 %label the image
-[Label,Total]=bwlabel(image,8);  %Total = labelled surfaces
+[Label,Total]=bwlabel(inputImage,8);  %Total = labelled surfaces
 
 %for testing
 %imshow(image); 
@@ -25,27 +22,29 @@ for num=1:Total
     sy=min(row)-0.5;
     breadth=max(col)-min(col)+1;
     len=max(row)-min(row)+1;
+    
     BBox=[sx sy breadth len];
-    display(BBox);   
-    hold on;
+    
+    %calc all edges
     x=zeros([1 5]);
     y=zeros([1 5]);
     x(:)=BBox(1); %x
     y(:)=BBox(2); %y
     x(2:3)=BBox(1)+BBox(3); %breatdth
     y(3:4)=BBox(2)+BBox(4); %len
-    plot(x,y);
-
+    
     %Find Area
     Obj_area=numel(row);
-    display(Obj_area);
+    
     %Find Centroid
     X=mean(col);
     Y=mean(row);
     Centroid=[X Y];
-    display(Centroid);
-    plot(X,Y,'ro','color','r');
-    hold off;
+    
+    %display(BBox); 
+    %plot(x,y);
+    %plot(X,Y,'ro','color','r');
+    
 
     %checking if it could be logo
     if X > 200 & Y < 300 & X < 700 & Y > 10
