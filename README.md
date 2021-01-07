@@ -34,6 +34,10 @@ Then follow the following steps
 * The reason for you needing to make the *Frames* folder yourself is that the frames need to be stored somewhere but get deleted
   in the end to prevent bugs and storage issues. In GitHub it is not possible to commit empty folders, therefor the notice to create the folder yourself.
 
+### MATLAB - Application
+TBA
+
+
 ## Built with
 This project was realised using a software called 'MATLAB'. Beware that 
 this software is not free to use and is only freely available for a testing

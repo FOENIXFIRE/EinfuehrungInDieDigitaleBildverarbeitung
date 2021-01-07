@@ -22,7 +22,7 @@ The resources are grouped by the person that used them.
 
 ### Kevin Baur
 * Sources:
-    *  TBA
+    *  [https://circuitdigest.com/tutorial/vehicle-number-plate-detection-using-matlab-and-image-processing](https://circuitdigest.com/tutorial/vehicle-number-plate-detection-using-matlab-and-image-processing)
 
 ### Manuel Lautschacher
 * Sources for the database:
