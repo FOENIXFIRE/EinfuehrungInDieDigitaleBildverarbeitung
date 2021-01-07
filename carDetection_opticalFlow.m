@@ -6,6 +6,9 @@ clc;
 %%Get Frames
 Video2Frames(videoName)
 
+blobAnalysis = vision.BlobAnalysis('BoundingBoxOutputPort', true, ...
+    'AreaOutputPort', false, 'CentroidOutputPort', false, ...
+    'MinimumBlobArea', 200);
 
 opticalVectorPlot = figure;
         movegui(opticalVectorPlot);
@@ -15,8 +18,10 @@ opticalVectorPlot = figure;
 threshHoldPlot = figure;  
 
 originalImgPlot = figure;
-        
-        
+
+boxedImgPlot = figure;
+       
+
 opticFlow = opticalFlowHS;
 
     for count = 1:3:(numel(dir("Frames"))-2)
@@ -49,11 +54,19 @@ opticFlow = opticalFlowHS;
 %       imgEro = imErosion(imgMagThr);
 
         set(0, 'CurrentFigure', threshHoldPlot)
-          imshow(imgEro);
-        
-        
-        
-             
+        imshow(imgEro);
+
+        bbox = step(blobAnalysis, imgEro);
+        boxImg = insertShape(uint8(imgEro),'Rectangle', bbox, 'Color', 'green');
+        numBoxes = size(bbox, 1);
+        if numBoxes>0
+            if bbox(1,3)>80
+                disp('Frame:')
+                disp(count);
+            end
+        end
+        set(0, 'CurrentFigure', boxedImgPlot)
+        imshow(boxImg)
     end
 
 

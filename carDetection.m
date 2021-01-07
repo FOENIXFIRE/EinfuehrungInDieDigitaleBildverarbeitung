@@ -2,7 +2,7 @@ foregroundDetector = vision.ForegroundDetector('NumGaussians', 3, ...
     'NumTrainingFrames', 50);
 
 %Put in your video file here
-videoReader = VideoReader('img/suzuki.mp4');
+videoReader = VideoReader('VideoFiles/suzuki.mp4');
 
 blobAnalysis = vision.BlobAnalysis('BoundingBoxOutputPort', true, ...
     'AreaOutputPort', false, 'CentroidOutputPort', false, ...
@@ -14,7 +14,7 @@ se = strel('square', 5); % morphological filter for noise removal
 
 for img = 1:videoReader.NumFrames
     frame = readFrame(videoReader); % read the next video frame
-
+    disp(class(frame));
     % Detect the foreground in the current video frame
     foreground = step(foregroundDetector, frame);
 
