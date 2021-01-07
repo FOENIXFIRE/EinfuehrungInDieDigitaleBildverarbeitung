@@ -36,13 +36,13 @@ Then follow the following steps
 
 ### MATLAB - Application
 
-####Starting the matlab app without optical-flow
+#### Starting the matlab app without optical-flow
 To start our program, download the brandDetector.zip folder and unzip it. Start the file brandDetector.mlapp and press „Run“.
 Now select a predefined image in the drop down menu and click on the „Get Brand“ button in the middle.
 After a few seconds you will see the result in the textfield below and next to it an image with the brand.
 You can also see the status of the program with the lamp, if it glows red, the program is not finished yet.
 
-####optical Flow
+#### optical Flow
 For our program to work the intended way, you first need to call a series of functions
 * **[image, bbox] = carDetection_opticalFlow('skodamp4')** (skodamp4 is a sample File)
 This function needs an input-parameter, which must be a file name of an existing video file in den *VideoFiles* folder
