@@ -1,6 +1,6 @@
 % Vincent Zoechling 11913652
 % Lucio Delen 11827180
-function [outputImage] = carDetection_opticalFlow (videoName)
+function [outputImage, bboxAuto] = carDetection_opticalFlow (videoName)
 
 close all;
 clc;
@@ -87,6 +87,7 @@ opticFlow = opticalFlowHS;
                 disp('Frame:')
                 disp(count +1);
                 outputImage = ansimgFile;
+                bboxAuto = bbox;
             end
         end
         set(0, 'CurrentFigure', boxedImgPlot)
