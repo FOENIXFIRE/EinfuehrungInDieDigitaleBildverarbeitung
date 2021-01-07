@@ -58,16 +58,13 @@ opticFlow = opticalFlowHS;
 
         bbox = step(blobAnalysis, imgEro);
         boxImg = insertShape(uint8(imgEro),'Rectangle', bbox, 'Color', 'green');
-         numBoxes = size(bbox, 1);
-    if numBoxes>0
-        disp('width:');
-        disp(bbox(1,3));
-
-        if bbox(1,3)>80
-            disp('Frame:')
-            disp(count);
+        numBoxes = size(bbox, 1);
+        if numBoxes>0
+            if bbox(1,3)>80
+                disp('Frame:')
+                disp(count);
+            end
         end
-    end
         set(0, 'CurrentFigure', boxedImgPlot)
         imshow(boxImg)
     end
