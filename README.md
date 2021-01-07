@@ -1,4 +1,4 @@
-# Einfuehrung In Die Digitale Bildverarbeitung
+# Einfuehrung In Die Digitale Bildverarbeitung - Car Brand Recognition
 
 **Version 1.0.0**
 
@@ -16,6 +16,16 @@ determine the brand of a car when driving into a parking spot.
 - [Links and Resources](#links-and-resources)
 
 ## Getting started
+You need to have [MATLAB](https://de.mathworks.com/products/matlab.html "MathWorks Website") installed on your computer.
+Then follow the following steps 
+
+### Install
+* Clone this repository or download the files 
+* Setup MATLAB with the files in your working directory 
+    * Make sure that you have the folders **VideoFiles** and **logos**
+    * For this to work you also need to setup an additional folder called **Frames**
+        * *NOTE:* the F must be a captial F and not a small f
+
 
 ## Built with
 This project was realised using a software called 'MATLAB'. Beware that 
@@ -36,6 +46,8 @@ MATLAB please visit the [official website](https://de.mathworks.com/products/mat
 
 
 ## Get Help
+- Contact either of us using the email adresses above.
+- If appropriate, [open an issue](https://github.com/FOENIXFIRE/EinfuehrungInDieDigitaleBildverarbeitung/issues)
 
 
 ## License 
