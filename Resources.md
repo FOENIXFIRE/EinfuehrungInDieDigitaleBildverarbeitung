@@ -2,6 +2,8 @@
 # Links and resources:
 The resources are grouped by the person that used them.
 
+---
+
 ## Table of content
 - [Vincent Zoechling](#vincent-zoechling)
 - [Lucio Delen](#lucio-delen)
