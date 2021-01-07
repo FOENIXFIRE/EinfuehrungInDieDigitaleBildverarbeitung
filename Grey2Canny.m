@@ -1,4 +1,3 @@
-% Jan König (01007167)
 function [cannyImage] = Grey2Canny(input)
 % takes an greyscale image as input 
 % returns edges as detected by canny filter
@@ -7,11 +6,12 @@ function [cannyImage] = Grey2Canny(input)
 %
 % source: https://de.mathworks.com/matlabcentral/fileexchange/46859-canny-edge-detection
 
-% set thresholds (low and high) 
+% set thresholds (low and high) for later use (6. Hystersis Thresholing) 
 lowerThreshold = 0.075;
 higherThreshold = 0.175;
 
-% 1. Convolution with Gaussian Filter Coefficient
+% 1. Convolution with Gaussian Filter Coefficient 
+% this will smoothen the image and allow for better edge detection
 gaussFilter = [2 4 5 4 2; 4 9 12 9 4; 5 12 15 12 5;4 9 12 9 4; 2 4 5 4 2 ];
 gaussFilter = 1/159.* gaussFilter;
 
@@ -25,12 +25,16 @@ horFilteredImage = conv2(gaussImage, horConFilter, 'same');
 verFilteredImage = conv2(gaussImage, verConFilter, 'same');
 
 % 3. Calculating directions using atan2
+% this will be needed to calculate the magnitude (meaning how much the
+% surroundings of a pixel changes colors) 
 arah = atan2 (verFilteredImage, horFilteredImage);
 arah = arah*180/pi;
 pan=size(gaussImage,1);
 leb=size(gaussImage,2);
 
 % 4.1 making negative directions positive 
+% it doesn't matter in which direction we are moving, the absolute
+% difference of values is important
 for i=1:pan
     for j=1:leb
         if (arah(i,j)<0) 
@@ -55,12 +59,16 @@ for i = 1  : pan
     end;
 end;
 
-% 5.1 Calculate magnitude
+% 5.1 Calculate magnitude (does a pixel lie on an edge)
+% a high magnitude means the colors are changing rapidly which means the pixel lies on an edge
 magTemp = (horFilteredImage.^2) + (verFilteredImage.^2);
 magnitude = sqrt(magTemp);
 BW = zeros (pan, leb);
 
 % 5.2 Non-Maximum Supression
+% take each pixel and check 2 neighbors in each possible direction
+% if the pixel has the highes magnitude along its two neighbors it might be
+% on an edge (threshold needs to be checked in next step to make sure)
 for i=2:pan-1
     for j=2:leb-1
         if (arah2(i,j)==0)
@@ -77,6 +85,9 @@ end;
 BW = BW.*magnitude;
 
 % 6. Hysteresis Thresholding
+% if value is below lower threshold: remove pixel
+% if value is above high threshold: retain pixel
+% if value is between both thresholds: retain only if pixel is connected to an edge above high threshold 
 lowerThreshold = lowerThreshold * max(max(BW));
 higherThreshold = higherThreshold * max(max(BW));
 T_res = zeros (pan, leb);
