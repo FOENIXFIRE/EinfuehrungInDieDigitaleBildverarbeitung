@@ -8,6 +8,21 @@ function[output, outputname] = matching(input)
 %   with the highest correlation-value.
 
 imd = imageDatastore('logos','FileExtensions',{'.png'}, 'LabelSource' ,'foldernames', 'IncludeSubfolders', true);
+% Sources for the Logo-Database:
+% Skoda: https://de.wikipedia.org/wiki/Datei:Skoda_Logo.svg
+% Citroen: https://www.pinterest.at/pin/15973773656227428/
+% Fiat: https://www.nicepng.com/ourpic/u2e6w7y3w7y3i1o0_fiat-logo-fiat-zeichen-vektor-bedeutendes-logo-und/
+% Ford: https://automarken-logos.com/ford-logo/
+% Honda: https://freepngimg.com/png/36643-honda-logo
+% Hyundai: https://www.pngfind.com/mpng/iixThho_hyundai-logo-png-hyundai-emblem-transparent-png/
+% Landrover: https://www.pngegg.com/de/search?q=Land
+% Mercedes: https://car-pediem.biz/partner/mercedes-benz-logo-png-file/
+% Opel: https://de.wikipedia.org/wiki/Datei:Opel-Logo-2011-Vector.svg
+% Porsche: https://de.wikipedia.org/wiki/Datei:Porsche_Wappen.svg
+% Seat: https://www.pngfind.com/mpng/hwoxwJi_seat-logo-seat-hd-png-download/
+% BMW: https://www.b-m-automation.de/project/bmw/
+% Suzuki: https://www.nicepng.com/ourpic/u2w7e6q8a9e6t4o0_suzuki-logo-transparent-png/
+% VW: https://de.cleanpng.com/png-iep6ow/
 
 c = countEachLabel(imd);
 a = c.Count;
