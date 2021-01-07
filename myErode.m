@@ -1,3 +1,4 @@
+% Jan König (01007167)
 function output = myErode(input)
 % takes an image as input
 % returns image eroded by a predefined structure element (se)
