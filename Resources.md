@@ -11,6 +11,8 @@ The resources are grouped by the person that used them.
 - [Manuel Lautschacher](#manuel-lautschacher)
 - [Jan Koenig](#jan-koenig)
 
+---
+
 ### Vincent Zoechling
 * Sources:
     * [Tracking Cars Using Optical Flow](https://de.mathworks.com/help/vision/ug/tracking-cars-using-optical-flow.html?searchHighlight=optical%20flow&s_tid=srchtitle)
