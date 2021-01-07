@@ -3,7 +3,7 @@ function [outputImage] = carCropping(inputImage, bboxAuto)
 
 %Resizing the bounding box
 scale = 5;
-bbox = bboxAuto;
+bbox = (bboxAuto);
 bboxResized = bboxresize(bbox,scale);
 
 

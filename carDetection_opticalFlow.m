@@ -33,6 +33,7 @@ boxedImgPlot = figure;
        
 %Creating an optical flow
 opticFlow = opticalFlowHS;
+opticFlow.Smoothness = 3;
 
     %Iteration over the frames in steps of size 3
     %numel(dir("Frames"))-2 is used to get the number of frames in the
@@ -63,7 +64,7 @@ opticFlow = opticalFlowHS;
         flowField = estimateFlow(opticFlow,img1gray);
         imshow(img1resize);
         hold on
-        plot(flowField,'DecimationFactor',[5 5],'ScaleFactor',30,'Parent',hPlot);
+        plot(flowField,'DecimationFactor',[5 5],'ScaleFactor',80,'Parent',hPlot);
         title('Optical Flow');
         hold off
         pause (10^-3)
@@ -71,8 +72,8 @@ opticFlow = opticalFlowHS;
         
         %Getting the magnitude from the opticalFlow object
         imgMag = flowField.Magnitude;
-        imgMagThr = threshholding(imgMag, mean(imgMag(:))/3);
-        imgEro = imErosion(imgMagThr,6);
+        imgMagThr = threshholding(imgMag, mean(imgMag(:))*3);
+        imgEro = imErosion(imgMagThr,10);
         set(0, 'CurrentFigure', threshHoldPlot)
         imshow(imgEro);
         
