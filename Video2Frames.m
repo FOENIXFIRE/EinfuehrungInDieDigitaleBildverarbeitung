@@ -1,4 +1,4 @@
-% Jan König (01007167)
+% Jan Koenig (01007167)
 function Video2Frames(input)
 % takes a video-object and processes it
 % Function will save each frame of the given video as a .jpg in the folder "Frames"

@@ -1,6 +1,6 @@
 % Vincent Zoechling 11913652
 % Lucio Delen 11827180
-function carDetection_opticalFlow (videoName)
+function [outputImage] = carDetection_opticalFlow (videoName)
 
 close all;
 clc;
@@ -41,7 +41,7 @@ opticFlow = opticalFlowHS;
     for count = 1:3:(numel(dir("Frames"))-2)
         
         %Reading in the file from the Frames folder
-        filename = strcat('Frames/frame', num2str(count), '.jpg');
+        filename = strcat('Frames/', videoName, '-', num2str(count), '.jpg');
         imgFile = imread(filename);
         
         %Resizing the image and converting into grey
@@ -82,6 +82,7 @@ opticFlow = opticalFlowHS;
             if bbox(1,3)>80
                 disp('Frame:')
                 disp(count);
+                outputImage = imgFile;
             end
         end
         set(0, 'CurrentFigure', boxedImgPlot)
@@ -97,7 +98,7 @@ opticFlow = opticalFlowHS;
     %navigate between folders
     for deleter = 1:1:(numel(dir("Frames"))-2)
 
-        filename = strcat('Frames/frame', num2str(deleter), '.jpg');
+        filename = strcat('Frames/', videoName, '-', num2str(deleter), '.jpg');
         if exist(filename, 'file')==2
             delete(filename)
         end
