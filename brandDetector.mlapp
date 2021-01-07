@@ -1,3 +1,4 @@
+%Kevin Baur 11827180
 classdef brandDetector < matlab.apps.AppBase
 
     % Properties that correspond to app components
@@ -11,6 +12,7 @@ classdef brandDetector < matlab.apps.AppBase
         GetBrandButton                 matlab.ui.control.Button
         FinishedLampLabel              matlab.ui.control.Label
         FinishedLamp                   matlab.ui.control.Lamp
+        EditField                      matlab.ui.control.EditField
         BrandAxes                      matlab.ui.control.UIAxes
         ImageAxes                      matlab.ui.control.UIAxes
     end
@@ -25,8 +27,6 @@ classdef brandDetector < matlab.apps.AppBase
                 im = imread('skoda.png');
             elseif strcmp(imagefile,'rangeRover.png')
                 im = imread('rangeRover.png');
-            elseif strcmp(imagefile, 'toyota.png')
-                im = imread('toyota.png');
             else
                 try
                     im = imread(imagefile);
@@ -43,6 +43,7 @@ classdef brandDetector < matlab.apps.AppBase
         %%output matched brand
         function updatebrand(app, image)
             app.FinishedLamp.Color = [0.39,0.83,0.07];
+            app.EditField.Value = '';
             % load logo picture into Image
             imagesc(app.BrandAxes,image);
         end
@@ -50,43 +51,30 @@ classdef brandDetector < matlab.apps.AppBase
  
         %%find logo position (Kevin Baur 11827180)
         function logoPosition(app, im)
+            %cals logoPosition and stores the cropped logo image
             croppedImage = logoPosition(im);
+            %calls brandmatching for template matching
             brandMatching(app,croppedImage);
         end
         
         
         %%brand matching (Manuel Lautschacher 11822449) 
         function brandMatching(app,im)
+            %calls matching and stores brandimage and brandname
             [brandImage, brandname] = matching(im);
-            %imshow(brand);
-            app.BrandEditField.Value = brandname; %%updates brand in textfield GUI
-            
+            %%updates brand text in textfield GUI
+            app.BrandEditField.Value = brandname; 
             %%updates brand image in GUI
             updatebrand(app, brandImage);
         end
         
-        %%Videos to frames (Jan König 01007167)
-        function Video2Frames(app, video)
-            % folderS "VideoFiles" & "Frames" needs to be in working directory
-            
-            % iterating each frame and writing it to Frames/ as framex.png
-            for img = 1:video.NumFrames
-                filename = strcat('Frames/frame', num2str(img), '.png');
-                tempframe = read(video, img); 
-                imwrite(tempframe, filename);
-            end
-            logoPosition(app,tempframe);
-        end
-        
-        %%car detection (Lucio Delen 11713066) 
-        function carDetection(app, video)
-            
-                
-        end
-        
-        %%detects stopped car (Vincent Zoechling 11913652) 
-        function stopDetection(app, video)
-            
+        %%optical flow (Vincent Zoechling 11913652 and Lucio Delen 11713066) 
+        function carDetection_opticalFlow(app, video)
+                %call carDetection_opticalFlow and store the output image
+                %in carImage
+                carImage = carDetection_opticalFlow(video);
+                %call logoPosition to get the logo Position
+                logoPosition(app, carImage);
             end
         end
 
@@ -125,9 +113,10 @@ classdef brandDetector < matlab.apps.AppBase
         % Button pushed function: GetBrandButton
         function GetBrandButtonPushed(app, event)
             app.FinishedLamp.Color = [1.00,0.41,0.16];
-            video = imread(app.DropDown.Value);
-            %Video2Frames(app,video);
-            logoPosition(app,video);
+            app.EditField.Value = 'Please wait....';
+            videoname = imread(app.DropDown.Value);
+            logoPosition(app,videoname);
+            %carDetection_opticalFlow(app, videoname);
         end
     end
 
@@ -167,8 +156,8 @@ classdef brandDetector < matlab.apps.AppBase
 
             % Create DropDown
             app.DropDown = uidropdown(app.UIFigure);
-            app.DropDown.Items = {'car one', 'car two', 'car three', 'car four'};
-            app.DropDown.ItemsData = {'suzuki.png', 'skoda.png', 'rangeRover.png', 'toyota.png'};
+            app.DropDown.Items = {'car one', 'car two', 'car three'};
+            app.DropDown.ItemsData = {'suzuki.png', 'skoda.png', 'rangeRover.png'};
             app.DropDown.ValueChangedFcn = createCallbackFcn(app, @DropDownValueChanged, true);
             app.DropDown.Position = [509 458 89 29];
             app.DropDown.Value = 'suzuki.png';
@@ -190,6 +179,10 @@ classdef brandDetector < matlab.apps.AppBase
             app.FinishedLamp = uilamp(app.UIFigure);
             app.FinishedLamp.Position = [490 237 20 20];
             app.FinishedLamp.Color = [0.3922 0.8314 0.0745];
+
+            % Create EditField
+            app.EditField = uieditfield(app.UIFigure, 'text');
+            app.EditField.Position = [526 237 99 20];
 
             % Create BrandAxes
             app.BrandAxes = uiaxes(app.UIFigure);
