@@ -48,7 +48,7 @@ MATLAB please visit the [official website](https://de.mathworks.com/products/mat
 - Lucio Delen <e11713066@student.tuwien.ac.at>
 - Kevin Baur <e11827180@student.tuwien.ac.at>
 - Manuel Lautschacher <e11822449@student.tuwien.ac.at>
-- Jan König <01007167@student.tuwien.ac.at>
+- Jan Koenig <01007167@student.tuwien.ac.at>
 
 #### Issues
 In the case of a bug report, bugfix or a suggestions, please feel very free to open an issue.
