@@ -80,10 +80,12 @@ pic = imread(folder+"\1.png");
 
 [asdf, name1] = fileparts(folder);
 
-
-outputname = name1;
-
-output = pic;
+if (max1 > 0.5)
+    outputname = name1;
+    output = pic;
+else
+    outputname = "Brand not found";
+    output = zeros(100);
 
 end
 
