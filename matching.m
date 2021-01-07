@@ -81,6 +81,7 @@ function [C,numberOfOverlapPixels] = normxcorr2_self(varargin)
 %   then it normalizes the values to get values between 0 and 1,
 %   0 if the pixel has no correlation with the template, 1 if the
 %   pixels nearby area is exactly the same.
+%   Source: https://github.com/OpenPIV/openpiv-matlab/blob/master/normxcorr2_general.m
 
 [T, A, requiredNumberOfOverlapPixels] = ParseInputs(varargin{:});
 
