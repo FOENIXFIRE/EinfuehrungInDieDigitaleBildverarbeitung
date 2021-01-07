@@ -25,7 +25,7 @@ The resources are grouped by the person that used them.
     *  TBA
 
 ### Manuel Lautschacher
-*Sources for the database:
+* Sources for the database:
     *[Skoda](https://de.wikipedia.org/wiki/Datei:Skoda_Logo.svg)
     * [Citroen](https://www.pinterest.at/pin/15973773656227428/)
     * [Fiat](https://www.nicepng.com/ourpic/u2e6w7y3w7y3i1o0_fiat-logo-fiat-zeichen-vektor-bedeutendes-logo-und/)
@@ -42,8 +42,8 @@ The resources are grouped by the person that used them.
     * [VW](https://de.cleanpng.com/png-iep6ow/)
 * Other resources:
     * Merkmalslistenbasierte Kreuzkorrelationsmethoden für die medizinische Bildverarbeitung, Husar, Hoppe, Goltz, 2008, Technische Universität Ilmenau
-    * [https://github.com/OpenPIV/openpiv-matlab/blob/master/normxcorr2_general.m] (https://github.com/OpenPIV/openpiv-matlab/blob/master/normxcorr2_general.m)
-    * [https://de.mathworks.com/help/images/ref/normxcorr2.html] (https://de.mathworks.com/help/images/ref/normxcorr2.html)
+    * [https://github.com/OpenPIV/openpiv-matlab/blob/master/normxcorr2_general.m](https://github.com/OpenPIV/openpiv-matlab/blob/master/normxcorr2_general.m)
+    * [https://de.mathworks.com/help/images/ref/normxcorr2.html](https://de.mathworks.com/help/images/ref/normxcorr2.html)
 
 ### Jan Koenig
 * Sources:
