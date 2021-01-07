@@ -20,6 +20,8 @@ The resources are grouped by the person that used them.
     * [estimateFlow - Documentation](https://de.mathworks.com/help/vision/ref/opticalflowhs.estimateflow.html)
     * [Motion Estiamtion | Student Competition: Computer Vision Training](https://www.youtube.com/watch?v=pzdr0j997Sc)
     * [Optical Flow Lecture by Dr. Mubarak Shah](https://www.youtube.com/watch?v=5VyLAH8BhF8&t=2089s)
+    * [Cropping of bonding boxes](https://de.mathworks.com/help/deeplearning/ug/bounding-box-augmentation-using-computer-vision-toolbox.html)
+    * [boundingBox doc](https://de.mathworks.com/help/matlab/ref/polyshape.boundingbox.html)
 ### Lucio Delen
 * Sources:
     * [https://de.mathworks.com/help/vision/ug/detecting-cars-using-gaussian-mixture-models.html?prodcode=VP&language=en](https://de.mathworks.com/help/vision/ug/detecting-cars-using-gaussian-mixture-models.html?prodcode=VP&language=en)
