@@ -75,4 +75,4 @@ Resources for the README:
 [Tutorial and Help - README by Simon Hoiberg](https://github.com/SimonHoiberg/Hue-Debugger-UI)
 
 Resources for the project:
-[See all resources](Resources)
+[See all resources](Resources.md)
